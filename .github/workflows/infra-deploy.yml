@@ -11,10 +11,10 @@ on:
         options:
         - plan
         - apply
-  push:
-    paths:
-      - 'aws-infra/**'
-      - '.github/workflows/infra-deploy.yml'
+#   push:
+#     paths:
+#       - 'aws-infra/**'
+#       - '.github/workflows/infra-deploy.yml'
 
 jobs: 
   build:
