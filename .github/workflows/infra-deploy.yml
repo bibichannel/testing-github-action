@@ -3,7 +3,7 @@ name: Deploy Infrastructure
 on:
   workflow_dispatch:
     inputs:
-      actions :
+      actions:
         description: 'Selecting actions for terraform'
         required: true
         default: 'plan'
@@ -11,7 +11,7 @@ on:
         options:
         - plan
         - apply
-      environment_select :
+      environment:
         description: 'Selecting evironments for terraform'
         required: true
         default: 'staging'
@@ -19,14 +19,22 @@ on:
         options:
         - staging
         - prod
+      image:
+        description: 'Type image name to deploy to ECS'
+        required: true
+        type: string
 
 jobs: 
   build:
     runs-on: ubuntu-latest
-    name: DEPLOY FRONTEND
+    name: DEPLOY INFRASTRUCTURE
+    environment:  ${{ github.event.inputs.environment }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
+      - run: echo "🔎 The name of your branch is github.ref_name and your repository is ${{ github.repository }}."
+      
+    #   - name: Check out repository code
+    #     uses: actions/checkout@v3
+
 
     #   - name: Configure AWS Credentials
     #     uses: aws-actions/configure-aws-credentials@v2
@@ -35,19 +43,38 @@ jobs:
     #       aws-secret-access-key: ${{ secrets['AWS_SECRET_ACCESS_KEY'] }}
     #       aws-region: ap-northeast-1
     
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.4.6
-          terraform_wrapper: false
+    #   - name: Setup Terraform
+    #     uses: hashicorp/setup-terraform@v2
+    #     with:
+    #       terraform_version: 1.4.6
+    #       terraform_wrapper: false
 
-      - name: Validate Terraform
-        run: terraform validate
+    #   - name: Get 
 
-      - name: Plan Terraform
-        run: terraform plan
-        if: ${{ github.event.inputs.actions == 'plan' }} 
+    #   - name: Prepare Terraform
+    #     env:
+    #       PASS_DB: ${{ secrets[format('PASS_DB_{0}', github.event.inputs.environment)]  }}
+    #       USER_DB: ${{ secrets[format('USER_DB_{0}', github.event.inputs.environment)]  }}
+    #       ACCESS_KEY: ${{ secrets['AWS_ACCESS_KEY_ID'] }}
+    #       SECRET_KEY: ${{ secrets['AWS_SECRET_ACCESS_KEY'] }}
+    #       IMAGE_BE: ${{ github.event.inputs.image }}
+    #       STAGE_NAME: ${{ github.event.inputs.environment }}
+    #       TERRAFORM_STATE_BUCKET_NAME: ${{ secrets[format('TERRAFORM_STATE_BUCKET_NAME_{0}', github.event.inputs.environment)]  }}
+    #       SECRET_STRIPE: ${{ secrets[format('SECRET_STRIPE_{0}', github.event.inputs.environment)] }}
+    #       STRIPE_API_KEY: ${{ secrets[format('STRIPE_API_KEY_{0}', github.event.inputs.environment)] }}
+    #     run: |
+    #       cd aws-infra/
+    #       bash update_vars.sh
+    #       terraform init -backend-config=./cfbackend.tfvars
 
-      - name: Aplly Terraform
-        run: terraform apply
-        if: ${{ github.event.inputs.actions == 'apply' }} 
+    #   - name: Plan Terraform
+    #     run: |
+    #       cd aws-infra/
+    #       terraform plan
+    #     if: ${{ github.event.inputs.actions == 'plan' }} 
+
+    #   - name: Aplly Terraform
+    #     run: |
+    #       cd aws-infra/
+    #       terraform apply -auto-approve
+    #     if: ${{ github.event.inputs.actions == 'apply' }}
