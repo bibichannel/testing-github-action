@@ -1,45 +1,45 @@
-# name: Deploy to S3 and CloudFront
-# run-name: 
-# on:
-    # push:
-        # branches: 
-          # - 'main'
-# jobs:
-  # build:
-    # runs-on: ubuntu-latest
-    # environment: staging
-    # steps:
-      # - run: ${{ github.actor }} triggered event GitHub Actions 🚀
-      # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+name: Deploy to S3 and CloudFront
+run-name: 
+on:
+    push:
+        branches: 
+          - 'main'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: ${{ github.actor }} triggered event GitHub Actions 🚀
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-      # - name: Check out repository code
-        # uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-      # - name: Set enviroments
-        # uses: actions/setup-node@v3
-        # with:
-          # node-version: '14.17.0'
+      - name: Set enviroments
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.17.0'
 
-      # - name: Configure AWS Credentials
-        # uses: aws-actions/configure-aws-credentials@v2
-        # with:
-            # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            # aws-region: ap-northeast-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-northeast-1
             
-      # - name: Install depedencies
-        # run: npm install
+      - name: Install depedencies
+        run: npm install
 
-      # - name: Build static file
-        # run: npm build
+      - name: Build static file
+        run: npm build
 
-      # - name: Clean file s3
-        # run: |
-            # aws s3 rm s3://${{ secrets.BUCKET_NAME }} --recursive
+      - name: Clean file s3
+        run: |
+            aws s3 rm s3://${{ secrets.BUCKET_NAME }} --recursive
 
-      # - name: Copy file to s3
-        # run: |
-            # aws s3 sync ${{ github.workspace }}/build/static s3://${{ secrets.BUCKET_NAME }}
+      - name: Copy file to s3
+        run: |
+            aws s3 sync ${{ github.workspace }}/build/static s3://${{ secrets.BUCKET_NAME }}
 
-      # - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 This job's status is ${{ job.status }}."
