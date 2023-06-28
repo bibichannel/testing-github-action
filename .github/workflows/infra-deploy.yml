@@ -1,0 +1,28 @@
+name: Deploy Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      actions:
+        description: 'Selecting actions for terraform'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+        - plan
+        - apply
+      environment:
+        description: 'Selecting evironments for terraform'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - prod
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    name: DEPLOY INFRASTRUCTURE
+    environment:  "terraform-${{ github.event.inputs.environment }}"
+    steps:
+      - run: echo "🔎 The name of your branch is github.ref_name and your repository is ${{ github.repository }}."
