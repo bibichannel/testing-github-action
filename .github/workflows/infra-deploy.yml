@@ -42,6 +42,7 @@ jobs:
 
       - name: Plan Terraform
         run: terraform plan
+        if: ${{ github.event.inputs.actions == 'plan' }} 
 
       - name: Aplly Terraform
         run: terraform apply
