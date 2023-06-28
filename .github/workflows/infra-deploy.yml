@@ -11,10 +11,14 @@ on:
         options:
         - plan
         - apply
-#   push:
-#     paths:
-#       - 'aws-infra/**'
-#       - '.github/workflows/infra-deploy.yml'
+      environment_select :
+        description: 'Selecting evironments for terraform'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - prod
 
 jobs: 
   build:
