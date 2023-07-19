@@ -1,6 +1,12 @@
 name: Deploy Infrastructure
 
 on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       actions:
@@ -26,6 +32,9 @@ jobs:
     environment:  "terraform-${{ github.event.inputs.environment }}"
     steps:
       - run: echo "🔎 The name of your branch is ${{ github.ref_name }} and your repository is ${{ github.repository }}."
+      - run: echo $GITHUB_REF_NAME
+      - run: echo $GITHUB_WORKSPACE
+      - run: echo ${{ vars.KHANHTRUNG }}
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,5 +54,5 @@ jobs:
       - name: Check file
         run: |
           ls ${{ github.workspace }}/aws-infra
-          apt install -y tree
+          sudo apt-get update && sudo apt-get install -y tree
           tree ${{ github.workspace }}/
