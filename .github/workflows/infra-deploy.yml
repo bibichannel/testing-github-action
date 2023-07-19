@@ -44,4 +44,6 @@ jobs:
 
       - name: Check file
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/aws-infra
+          apt install -y tree
+          tree ${{ github.workspace }}/
