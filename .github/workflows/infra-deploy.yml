@@ -40,7 +40,7 @@ jobs:
       - name: Download credentials file from s3
         run: |
           cd aws-infra
-          aws s3 ls s3://anycha-terraform-staging-test/terraform/terraform.tfstate .
+          aws s3 cp s3://anycha-terraform-staging-test/terraform/terraform.tfstate .
 
       - name: Check file
         run: |
