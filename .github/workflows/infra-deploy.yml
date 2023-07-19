@@ -33,7 +33,7 @@ jobs:
     steps:
       - run: echo "$GITHUB_REF_NAME == ${{ github.ref_name }}"
       - run: echo "$GITHUB_WORKSPACE == ${{ github.workspace }}"
-      - run: echo ${{ vars.KHANHTRUNG != $KHANHTRUNG}}
+      - run: echo "${{ vars.KHANHTRUNG }} != $KHANHTRUNG"
 
       - name: Checkout
         uses: actions/checkout@v3
